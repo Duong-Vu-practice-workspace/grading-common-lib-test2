@@ -1,4 +1,4 @@
-name: Publish Common Lib to GitHub Packages
+name: Publish Common Lib
 
 on:
   push:
@@ -7,9 +7,6 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
 
     steps:
       - name: Checkout code
@@ -22,7 +19,16 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Publish to GitHub Packages
-        run: mvn clean deploy -DskipTests
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0
+          name: common-lib v1.0.0
+          files: target/common-lib-*.jar
+          generate_release_notes: true
+          make_latest: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

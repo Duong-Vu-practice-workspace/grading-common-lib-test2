@@ -4,45 +4,27 @@ Shared library cho Web Programming Grading Platform.
 
 ## Cach su dung
 
-### Buoc 1: Setup Maven authentication
+### Buoc 1: Download va install tu GitHub Releases
 
 ```bash
-python3 setup-maven.py <github-username> <github-token>
+python3 install-common-lib.py
 ```
 
-Hoac tao thu cong `~/.m2/settings.xml`:
-
-```xml
-<settings>
-  <servers>
-    <server>
-      <id>github</id>
-      <username>YOUR_GITHUB_USERNAME</username>
-      <password>YOUR_GITHUB_TOKEN</password>
-    </server>
-  </servers>
-</settings>
-```
-
-### Buoc 2: Publish len GitHub Packages
+Hoac download thu cong tu: https://github.com/Duong-Vu-practice-workspace/grading-common-lib-test2/releases
 
 ```bash
-cd services/common-lib
-mvn clean deploy -DskipTests
+mvn install:install-file \
+  -Dfile=common-lib-1.0.0.jar \
+  -DgroupId=com.ptit.grading \
+  -DartifactId=common-lib \
+  -Dversion=1.0.0 \
+  -Dpackaging=jar \
+  -DgeneratePom=true
 ```
 
-### Buoc 3: Su dung trong service
-
-Da co san trong pom.xml moi service:
+### Buoc 2: Them dependency vao pom.xml
 
 ```xml
-<repositories>
-  <repository>
-    <id>github</id>
-    <url>https://maven.pkg.github.com/Duong-Vu-practice-workspace/grading-common-lib-test2</url>
-  </repository>
-</repositories>
-
 <dependencies>
   <dependency>
     <groupId>com.ptit.grading</groupId>
@@ -52,10 +34,9 @@ Da co san trong pom.xml moi service:
 </dependencies>
 ```
 
-### Buoc 4: Build service
+### Buoc 3: Build service
 
 ```bash
-cd services/assignment-service
 mvn clean package -DskipTests
 ```
 
