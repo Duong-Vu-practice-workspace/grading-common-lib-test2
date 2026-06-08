@@ -33,3 +33,4 @@ jobs:
           files: target/common-lib-*.jar
           generate_release_notes: true
           make_latest: false
+          prerelease: true
